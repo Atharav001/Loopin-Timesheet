@@ -89,15 +89,15 @@ public struct TimesheetTimelineView: View {
                                 RoundedRectangle(cornerRadius: 8)
                                     .stroke(AppTheme.borderSubtle, lineWidth: 1)
                             )
-                            .frame(height: 72)
+                            .frame(height: 80)
 
                         // Vertical hour grid lines
-                        hourGridLines(width: width, height: 72)
+                        hourGridLines(width: width, height: 80)
 
-                        // Planned Rail (Top Half)
+                        // Planned Rail (Top Half) & Logged Rail (Bottom Half)
                         VStack(spacing: 2) {
                             ZStack(alignment: .leading) {
-                                Color.clear.frame(height: 32)
+                                Color.clear.frame(height: 36)
                                 ForEach(timesheetStore.todayPlannedEntries) { entry in
                                     plannedBlockView(entry: entry, totalWidth: width)
                                 }
@@ -106,9 +106,8 @@ public struct TimesheetTimelineView: View {
                             Divider()
                                 .background(AppTheme.borderSubtle)
 
-                            // Logged Rail (Bottom Half)
                             ZStack(alignment: .leading) {
-                                Color.clear.frame(height: 32)
+                                Color.clear.frame(height: 36)
                                 ForEach(timesheetStore.todayLoggedEntries) { entry in
                                     loggedBlockView(entry: entry, totalWidth: width)
                                 }
@@ -118,13 +117,13 @@ public struct TimesheetTimelineView: View {
 
                         // Current Time Indicator Line (if today)
                         if Calendar.current.isDateInToday(timesheetStore.selectedDate) {
-                            currentTimeNeedle(totalWidth: width, height: 72)
+                            currentTimeNeedle(totalWidth: width, height: 80)
                         }
                     }
-                    .frame(height: 72)
+                    .frame(height: 80)
                 }
             }
-            .frame(height: 96)
+            .frame(height: 104)
 
             // Hover / Detail Inspector
             if let entry = hoveredEntry {
@@ -275,12 +274,14 @@ public struct TimesheetTimelineView: View {
             VStack(spacing: 0) {
                 Circle()
                     .fill(AppTheme.accentCoral)
-                    .frame(width: 6, height: 6)
+                    .frame(width: 8, height: 8)
+                    .shadow(color: AppTheme.accentCoral, radius: 4)
                 Rectangle()
                     .fill(AppTheme.accentCoral)
-                    .frame(width: 1.5, height: height)
+                    .frame(width: 2, height: height - 8)
+                    .shadow(color: AppTheme.accentCoral.opacity(0.8), radius: 3)
             }
-            .offset(x: x - 3)
+            .offset(x: x - 4)
         )
     }
 

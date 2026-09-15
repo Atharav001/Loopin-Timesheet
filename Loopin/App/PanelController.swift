@@ -93,6 +93,9 @@ final class PanelController {
                 .environmentObject(settingsStore)
                 .environmentObject(appState.timesheetStore)
                 .environmentObject(appState.classificationStore)
+                .environmentObject(appState.intervalLoggingEngine)
+                .environmentObject(appState.timerEngine)
+                .environmentObject(appState.timerSession)
                 .environmentObject(bridge)
             controller.installRoot(root)
         case .reports:
