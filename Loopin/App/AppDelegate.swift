@@ -9,6 +9,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var cancellables = Set<AnyCancellable>()
 
     func applicationDidFinishLaunching(_ notification: Notification) {
+        if CommandLine.arguments.contains("--run-tests") {
+            TimesheetModuleTests.runAllTests()
+            exit(0)
+        }
+
         let settingsStore = SettingsStore()
         let taskStore = TaskStore()
         let timerSession = TimerSession()
@@ -59,6 +64,13 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             AttentionOverlayManager.shared.trigger(event: .alarmFired, stimulationIntensity: intensity)
             statusBarController.pulseForAlarm()
         }
+
+        // Interval Logging Panel Setup (Phases 17-18)
+        LoggingPanelController.shared.setup(
+            intervalEngine: IntervalLoggingEngine.shared,
+            timesheetStore: TimesheetStore.shared,
+            classificationStore: ClassificationStore.shared
+        )
     }
 
     func applicationWillTerminate(_ notification: Notification) {

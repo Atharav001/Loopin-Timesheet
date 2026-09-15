@@ -10,6 +10,8 @@ enum WindowKind: String, Equatable {
     case timer
     case alarms
     case settings
+    case timesheet
+    case reports
 }
 
 /// Owns a single FloatingPanel instance plus its per-window pin bridge,
@@ -32,6 +34,16 @@ final class WindowController {
             targetPanel = FloatingPanel(
                 contentRect: NSRect(x: 0, y: 0, width: 660, height: 560),
                 minSize: NSSize(width: 580, height: 480)
+            )
+        } else if kind == .timesheet {
+            targetPanel = FloatingPanel(
+                contentRect: NSRect(x: 0, y: 0, width: 580, height: 540),
+                minSize: NSSize(width: 500, height: 440)
+            )
+        } else if kind == .reports {
+            targetPanel = FloatingPanel(
+                contentRect: NSRect(x: 0, y: 0, width: 560, height: 520),
+                minSize: NSSize(width: 480, height: 420)
             )
         } else {
             targetPanel = FloatingPanel()

@@ -26,5 +26,9 @@
 	<true/>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>Loopin uses on-device speech recognition to let you quickly dictate interval check-in logs.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Loopin uses your microphone for on-device voice logging prompts.</string>
 </dict>
 </plist>

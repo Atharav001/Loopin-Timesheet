@@ -17,6 +17,7 @@ targets:
       - Engines
       - Views
       - Resources
+      - Tests
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.loopin.app

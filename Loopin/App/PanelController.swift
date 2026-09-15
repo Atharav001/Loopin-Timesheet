@@ -88,6 +88,19 @@ final class PanelController {
                 .environmentObject(settingsStore)
                 .environmentObject(bridge)
             controller.installRoot(root)
+        case .timesheet:
+            let root = TimesheetWindowView()
+                .environmentObject(settingsStore)
+                .environmentObject(appState.timesheetStore)
+                .environmentObject(appState.classificationStore)
+                .environmentObject(bridge)
+            controller.installRoot(root)
+        case .reports:
+            let root = ReportsWindowView()
+                .environmentObject(settingsStore)
+                .environmentObject(appState.timesheetStore)
+                .environmentObject(bridge)
+            controller.installRoot(root)
         }
     }
 }

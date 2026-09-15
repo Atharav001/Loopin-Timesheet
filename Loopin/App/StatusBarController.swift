@@ -42,6 +42,9 @@ final class StatusBarController: NSObject {
         menu.addItem(menuItem(title: "Pomodoro / Timer / Stopwatch", kind: .timer))
         menu.addItem(menuItem(title: "Focus Interval Alarms", kind: .alarms))
         menu.addItem(.separator())
+        menu.addItem(menuItem(title: "Timesheet & Logbook", kind: .timesheet))
+        menu.addItem(menuItem(title: "Reports & Analytics", kind: .reports))
+        menu.addItem(.separator())
         menu.addItem(menuItem(title: "Settings", kind: .settings))
         menu.addItem(.separator())
 
