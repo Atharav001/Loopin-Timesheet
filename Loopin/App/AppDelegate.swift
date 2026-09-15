@@ -71,6 +71,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             timesheetStore: TimesheetStore.shared,
             classificationStore: ClassificationStore.shared
         )
+
+        // Present Timesheet & Logbook window on launch
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            panelController.focus(.timesheet)
+        }
     }
 
     func applicationWillTerminate(_ notification: Notification) {

@@ -9,6 +9,7 @@ enum MenuBarIconState {
 
 /// Menu bar item. Clicking it now opens an NSMenu picker (V1_IMPROVEMENTS §1.1)
 /// that forwards to one of several independent windows, not a single panel.
+@MainActor
 final class StatusBarController: NSObject {
     private let statusItem: NSStatusItem
     private let panelController: PanelController
@@ -38,16 +39,40 @@ final class StatusBarController: NSObject {
     private func buildMenu() -> NSMenu {
         let menu = NSMenu()
 
-        menu.addItem(menuItem(title: "To-Do List", kind: .todo))
-        menu.addItem(menuItem(title: "Pomodoro / Timer / Stopwatch", kind: .timer))
-        menu.addItem(menuItem(title: "Focus Interval Alarms", kind: .alarms))
-        menu.addItem(.separator())
-        menu.addItem(menuItem(title: "Timesheet & Logbook", kind: .timesheet))
-        menu.addItem(menuItem(title: "Reports & Analytics", kind: .reports))
-        menu.addItem(.separator())
-        menu.addItem(menuItem(title: "Settings", kind: .settings))
+        let timesheetItem = menuItem(title: "Timesheet & Logbook", kind: .timesheet)
+        timesheetItem.keyEquivalent = "1"
+        timesheetItem.keyEquivalentModifierMask = .command
+        menu.addItem(timesheetItem)
+
+        let logNowItem = NSMenuItem(title: "Log Current Activity Now", action: #selector(logActivityNow), keyEquivalent: "l")
+        logNowItem.keyEquivalentModifierMask = .command
+        logNowItem.target = self
+        menu.addItem(logNowItem)
+
+        let reportsItem = menuItem(title: "Reports & Analytics", kind: .reports)
+        reportsItem.keyEquivalent = "r"
+        reportsItem.keyEquivalentModifierMask = .command
+        menu.addItem(reportsItem)
+
         menu.addItem(.separator())
 
+        let timerItem = menuItem(title: "Pomodoro / Timer / Stopwatch", kind: .timer)
+        timerItem.keyEquivalent = "2"
+        timerItem.keyEquivalentModifierMask = .command
+        menu.addItem(timerItem)
+
+        let todoItem = menuItem(title: "To-Do List", kind: .todo)
+        todoItem.keyEquivalent = "3"
+        todoItem.keyEquivalentModifierMask = .command
+        menu.addItem(todoItem)
+
+        menu.addItem(.separator())
+        let settingsItem = menuItem(title: "Settings...", kind: .settings)
+        settingsItem.keyEquivalent = ","
+        settingsItem.keyEquivalentModifierMask = .command
+        menu.addItem(settingsItem)
+
+        menu.addItem(.separator())
         let quit = NSMenuItem(title: "Quit Loopin", action: #selector(quitApp), keyEquivalent: "q")
         quit.target = self
         menu.addItem(quit)
@@ -69,6 +94,10 @@ final class StatusBarController: NSObject {
     @objc private func selectWindow(_ sender: NSMenuItem) {
         guard let kind = sender.representedObject as? WindowKind else { return }
         panelController.focus(kind)
+    }
+
+    @objc private func logActivityNow() {
+        IntervalLoggingEngine.shared.triggerPrompt()
     }
 
     @objc private func quitApp() {
